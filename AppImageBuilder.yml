@@ -1,0 +1,29 @@
+# AppImageBuilder.yml
+version: 1
+
+AppDir:
+  path: ./AppDir
+
+  app_info:
+    id: site.azar-security.purplekey
+    name: PurpleKEY
+    icon: purplekey_icon
+    version: latest
+    exec: usr/bin/PurpleKEY-linux
+    exec_args: $@
+
+  apt:
+    arch: amd64
+    sources:
+      - sourceline: deb http://archive.ubuntu.com/ubuntu jammy main restricted universe multiverse
+
+  files:
+    include: []
+    exclude:
+      - usr/share/man
+      - usr/share/doc
+
+AppImage:
+  arch: x86_64
+  update-information: None
+  sign-key: None

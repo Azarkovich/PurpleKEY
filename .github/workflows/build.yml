@@ -1,3 +1,5 @@
+# .github/workflows/build.yml
+
 name: Build PurpleKEY
 
 on:
@@ -32,14 +34,38 @@ jobs:
       - name: Installer les dépendances
         run: pip install -r requirements.txt
 
-      - name: Compiler
+      - name: Compiler (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          pyinstaller --onefile --windowed \
+            --name PurpleKEY-linux \
+            --icon purplekey_icon.png \
+            main.py
+
+          mkdir -p AppDir/usr/bin
+          mkdir -p AppDir/usr/share/icons/hicolor/512x512/apps
+          cp dist/PurpleKEY-linux AppDir/usr/bin/
+          cp purplekey_icon.png AppDir/usr/share/icons/hicolor/512x512/apps/purplekey_icon.png
+
+          pip install appimage-builder
+          appimage-builder --recipe AppImageBuilder.yml --skip-test
+
+      - name: Compiler (Windows / macOS)
+        if: matrix.os != 'ubuntu-latest'
         run: >
           pyinstaller --onefile --windowed
           --name ${{ matrix.name }}
           --icon ${{ matrix.icon }}
           main.py
 
-      - name: Créer la Release
+      - name: Créer la Release (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: PurpleKEY-x86_64.AppImage
+
+      - name: Créer la Release (Windows / macOS)
+        if: matrix.os != 'ubuntu-latest'
         uses: softprops/action-gh-release@v2
         with:
           files: dist/${{ matrix.name }}
