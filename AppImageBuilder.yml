@@ -1,4 +1,3 @@
-# AppImageBuilder.yml
 version: 1
 
 AppDir:
@@ -16,12 +15,14 @@ AppDir:
     arch: amd64
     sources:
       - sourceline: deb http://archive.ubuntu.com/ubuntu jammy main restricted universe multiverse
-
-  files:
     include: []
     exclude:
       - usr/share/man
       - usr/share/doc
+
+  files:
+    include: []
+    exclude: []
 
 AppImage:
   arch: x86_64
