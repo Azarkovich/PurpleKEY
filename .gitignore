@@ -29,3 +29,7 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Icônes
+convert_icon.py
+purplekey.iconset/
