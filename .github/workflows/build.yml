@@ -12,10 +12,13 @@ jobs:
         include:
           - os: ubuntu-latest
             name: PurpleKEY-linux
+            icon: purplekey_icon.png
           - os: windows-latest
             name: PurpleKEY-windows.exe
+            icon: purplekey_icon.ico
           - os: macos-latest
             name: PurpleKEY-macos
+            icon: purplekey_icon.icns
 
     runs-on: ${{ matrix.os }}
 
@@ -30,7 +33,11 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Compiler
-        run: pyinstaller --onefile --windowed --name ${{ matrix.name }} main.py
+        run: >
+          pyinstaller --onefile --windowed
+          --name ${{ matrix.name }}
+          --icon ${{ matrix.icon }}
+          main.py
 
       - name: Créer la Release
         uses: softprops/action-gh-release@v2
